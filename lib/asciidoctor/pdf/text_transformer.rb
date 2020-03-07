@@ -17,6 +17,7 @@ module Asciidoctor
       PCDATAFilterRx = /(&#?[a-z\d]+;|<[^>]+>)|([^&<]+)/
       TagFilterRx = /(<[^>]+>)|([^<]+)/
       WordRx = /\S+/
+      CodePunctuationRx = /[\/\\.,_]/
       Hyphen = '-'
       SoftHyphen = ?\u00ad
       HyphenatedHyphen = '-' + SoftHyphen
@@ -35,14 +36,19 @@ module Asciidoctor
 
       def hyphenate_words_pcdata string, hyphenator
         if XMLMarkupRx.match? string
-          string.gsub(PCDATAFilterRx) { $2 ? (hyphenate_words $2, hyphenator) : $1 }
+          tag = ""
+          string.gsub(PCDATAFilterRx) { $2 ? (hyphenate_words $2, tag, hyphenator) : ($1[0] == '<' ? (tag = $1) : $1) }
         else
-          hyphenate_words string, hyphenator
+          hyphenate_words string, "", hyphenator
         end
       end
 
-      def hyphenate_words string, hyphenator
-        string.gsub(WordRx) { (hyphenator.visualize $&, SoftHyphen).gsub HyphenatedHyphen, Hyphen }
+      def hyphenate_words string, tag, hyphenator
+        if tag == '<code>' or tag.start_with? "<a href"
+          string.gsub(CodePunctuationRx) { "#{$&}\u200B" }
+        else
+          string.gsub(WordRx) { (hyphenator.visualize $&, SoftHyphen).gsub HyphenatedHyphen, Hyphen }
+        end
       end
 
       def lowercase_pcdata string

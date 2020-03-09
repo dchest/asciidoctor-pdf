@@ -353,6 +353,7 @@ module Asciidoctor
           hyphen_lang = (hyphen_lang.tr '-', '_').downcase
           @hyphenator = ::Text::Hyphen.new language: hyphen_lang
         end
+        @ligatures = doc.attr? 'ligatures'
         @text_transform = nil
         @list_numerals = []
         @list_bullets = []
@@ -2773,6 +2774,7 @@ module Asciidoctor
         if (transform = resolve_text_transform opts)
           string = transform_text string, transform
         end
+        string = ligaturize_text string if @ligatures
         outdent_section opts.delete :outdent do
           margin_top top_margin
           # QUESTION should we move inherited styles to typeset_text?
@@ -2798,6 +2800,7 @@ module Asciidoctor
           string = transform_text string, transform
         end
         string = hyphenate_text string, @hyphenator if (opts.delete :hyphenate) && (defined? @hyphenator)
+        string = ligaturize_text string if @ligatures
         # NOTE used by extensions; ensures linked text gets formatted using the link styles
         if (anchor = opts.delete :anchor)
           string = %(<a anchor="#{anchor}">#{string}</a>)

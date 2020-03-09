@@ -455,6 +455,10 @@ module Asciidoctor
         hyphenate_words_pcdata text, hyphenator
       end
 
+      def ligaturize_text text
+        ligaturize_pcdata text
+      end
+
       # Cursor
 
       # Short-circuits the call to the built-in move_up operation

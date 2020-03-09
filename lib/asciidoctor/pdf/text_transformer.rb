@@ -21,6 +21,28 @@ module Asciidoctor
       Hyphen = '-'
       SoftHyphen = ?\u00ad
       HyphenatedHyphen = '-' + SoftHyphen
+      Ligatures = {
+        "ffi" => "ﬃ",
+        "ffl" => "ﬄ",
+        "fi"  => "ﬁ",
+        "fl"  => "ﬂ",
+        "ff"  => "ﬀ",
+      }
+
+      def ligaturize_pcdata string
+        if XMLMarkupRx.match? string
+          tag = ""
+          string.gsub(PCDATAFilterRx) { $2 ? (ligaturize_words_mb $2, tag) : ($1[0] == '<' ? (tag = $1) : $1) }
+        else
+          ligaturize_words_mb string, ""
+        end
+      end
+
+      def ligaturize_words_mb string, tag
+        return string if tag == '<code>'
+        Ligatures.each { |s, rep| string = string.gsub s, rep }
+        string
+      end
 
       def capitalize_words_pcdata string
         if XMLMarkupRx.match? string

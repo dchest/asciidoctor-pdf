@@ -22,11 +22,11 @@ module Asciidoctor
       SoftHyphen = ?\u00ad
       HyphenatedHyphen = '-' + SoftHyphen
       Ligatures = {
-        "ffi" => "ﬃ",
-        "ffl" => "ﬄ",
+        # "ffi" => "ﬃ",
+        # "ffl" => "ﬄ",
         "fi"  => "ﬁ",
         "fl"  => "ﬂ",
-        "ff"  => "ﬀ",
+        # "ff"  => "ﬀ",
       }
 
       def ligaturize_pcdata string

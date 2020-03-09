@@ -2799,8 +2799,8 @@ module Asciidoctor
         if (transform = resolve_text_transform opts)
           string = transform_text string, transform
         end
-        string = hyphenate_text string, @hyphenator if (opts.delete :hyphenate) && (defined? @hyphenator)
         string = ligaturize_text string if @ligatures
+        string = hyphenate_text string, @hyphenator if (opts.delete :hyphenate) && (defined? @hyphenator)
         # NOTE used by extensions; ensures linked text gets formatted using the link styles
         if (anchor = opts.delete :anchor)
           string = %(<a anchor="#{anchor}">#{string}</a>)

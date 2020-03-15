@@ -118,7 +118,7 @@ module Asciidoctor
       end
 
       def dests
-        @dests.select {|d| d.key? :page }.sort {|a, b| a[:page] <=> b[:page] }
+        @dests.select {|d| d.key? :page }.sort {|a, b| a[:page].to_i <=> b[:page].to_i }
       end
 
       def container?

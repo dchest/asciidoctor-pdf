@@ -234,9 +234,6 @@ module Asciidoctor
               page_numbering_start_at = 'toc' if page_numbering_start_at == 'title' && !has_title_page
               page_numbering_start_at = 'body' if page_numbering_start_at == 'toc' && !insert_toc
             end
-            # XXX(dchest): super custom
-            zero_page_offset = 3
-
             front_matter_sig = [running_content_start_at, page_numbering_start_at]
             # table values are number of pages to skip before starting running content and page numbering, respectively
             num_front_matter_pages = {

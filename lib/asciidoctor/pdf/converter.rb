@@ -2386,7 +2386,7 @@ module Asciidoctor
       def convert_inline_footnote node
         if (index = node.attr 'index') && (node.document.footnotes.find {|fn| fn.index == index })
           anchor = node.type == :xref ? '' : %(<a id="_footnoteref_#{index}">#{DummyText}</a>)
-          %(#{anchor}<sup>[<a anchor="_footnotedef_#{index}">#{index}</a>]</sup>)
+          %(<sup><a anchor="_footnotedef_#{index}">#{index}</a></sup>#{anchor})
         elsif node.type == :xref
           # NOTE footnote reference not found
           %( <color rgb="FF0000">[#{node.text}]</color>)

@@ -351,7 +351,7 @@ module Asciidoctor
           hyphen_lang = doc.attr 'lang' if hyphen_lang.empty?
           hyphen_lang = 'en_us' if hyphen_lang.nil_or_empty? || hyphen_lang == 'en'
           hyphen_lang = (hyphen_lang.tr '-', '_').downcase
-          @hyphenator = ::Text::Hyphen.new language: hyphen_lang
+          @hyphenator = ::Text::Hyphen.new(language: hyphen_lang, :left => 3, :right => 3)
         end
         @ligatures = doc.attr? 'ligatures'
         @text_transform = nil
